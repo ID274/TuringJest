@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CipherStrategy))]
 public class EncryptionManager : MonoBehaviour
 {
     public static EncryptionManager Instance { get; private set; }

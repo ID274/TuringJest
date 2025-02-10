@@ -19,6 +19,7 @@ public class EncryptionTests
     {
         cipherHolderObject = new GameObject();
         encryptionManagerObject = new GameObject();
+        Debug.Log("Text to encrypt: " + textToEncrypt);
     }
 
     public void AddScripts()
