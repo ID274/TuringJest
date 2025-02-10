@@ -47,7 +47,7 @@ public class EncryptionTests
 
         cipher.InitialiseCipher();
         Encrypt();
-        string key = (cipher as CaesarCipher).GetKey();
+        string key = cipher.GetKey();
         string expectedResult = GenerateExpectedText(key.ToCharArray());
 
         // Assert
@@ -70,7 +70,7 @@ public class EncryptionTests
 
         cipher.InitialiseCipher();
         Encrypt();
-        string key = (cipher as SubstitutionCipher).GetKey();
+        string key = cipher.GetKey();
         string expectedResult = GenerateExpectedText(key.ToCharArray());
 
         // Assert
@@ -94,7 +94,30 @@ public class EncryptionTests
 
         cipher.InitialiseCipher();
         Encrypt();
-        string key = (cipher as SubstitutionCipher).GetKey();
+        string key = cipher.GetKey();
+        string expectedResult = GenerateExpectedText(key.ToCharArray());
+
+        // Assert
+
+        Assert.AreEqual(expectedResult, encryptionManager.GetEncryptedText());
+    }
+
+    [Test]
+    public void KeyWordCipherTest()
+    {
+        // Arrange
+
+        KeyWordCipher keyWordCipher = cipherHolderObject.AddComponent<KeyWordCipher>();
+        keyWordCipher.SetKeyWord("KEYWORD");
+        cipher = keyWordCipher;
+
+        AddScripts();
+
+        // Act
+        
+        cipher.InitialiseCipher();
+        Encrypt();
+        string key = cipher.GetKey();
         string expectedResult = GenerateExpectedText(key.ToCharArray());
 
         // Assert

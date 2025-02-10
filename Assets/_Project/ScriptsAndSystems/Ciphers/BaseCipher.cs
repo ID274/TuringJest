@@ -35,5 +35,8 @@ public abstract class BaseCipher : MonoBehaviour
 
     protected abstract void SetKey();
 
-    public abstract string GetKey();
+    public string GetKey() 
+    {
+        return key;
+    }
 }

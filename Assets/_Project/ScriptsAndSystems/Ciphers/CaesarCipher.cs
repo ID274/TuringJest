@@ -35,9 +35,4 @@ public class CaesarCipher : BaseCipher
         key = new string(newKey);
         Debug.Log($"Key: {key}, {key.Length} letters");
     }
-
-    public override string GetKey()
-    {
-        return key;
-    }
 }

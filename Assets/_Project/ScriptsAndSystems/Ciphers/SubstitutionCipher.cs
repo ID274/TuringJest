@@ -90,9 +90,4 @@ public class SubstitutionCipher : BaseCipher
         }
         Debug.Log($"Key: {key}, {key.Length} letters");
     }
-
-    public override string GetKey()
-    {
-        return key;
-    }
 }
