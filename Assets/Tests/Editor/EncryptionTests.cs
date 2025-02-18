@@ -30,7 +30,7 @@ public class EncryptionTests
 
     public void Encrypt()
     {
-        encryptionManager.SetCipherStrategy(cipherStrategy);
+        //encryptionManager.SetCipherStrategy(cipherStrategy);
         cipherStrategy.SetCipher(cipher);
         encryptionManager.Encrypt(textToEncrypt);
     }

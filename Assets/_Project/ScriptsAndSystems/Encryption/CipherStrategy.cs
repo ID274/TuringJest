@@ -24,4 +24,9 @@ public class CipherStrategy : MonoBehaviour
         }
         return encryptedText;
     }
+
+    public string GetKey()
+    {
+        return cipher.GetKey();
+    }
 }

@@ -22,17 +22,29 @@ public class EncryptionManager : MonoBehaviour
         }
         
         cipherStrategy = GetComponent<CipherStrategy>();
+
+        // temporary
+
+        CaesarCipher caesarCipher = gameObject.AddComponent<CaesarCipher>();
+        SetCipherStrategy(caesarCipher);
+        Encrypt("HELLO, WORLD!");
     }
 
-    public void SetCipherStrategy(CipherStrategy strategy)
+    public void SetCipherStrategy(BaseCipher strategy)
     {
-        cipherStrategy = strategy;
+        cipherStrategy.SetCipher(strategy);
     }
 
     public void Encrypt(string textToEncrypt)
     {
         encryptedText = cipherStrategy.Encrypt(textToEncrypt);
         Debug.Log($"Encrypted Text: {encryptedText}");
+    }
+
+    public string GetKey()
+    {
+        string key = cipherStrategy.GetKey();
+        return key;
     }
 
     public string GetEncryptedText()
