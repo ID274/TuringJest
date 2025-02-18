@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
+using System.Linq;
+using Codice.Client.Common.GameUI;
 
 public class Shifter : MonoBehaviour, ICipherTool
 {
@@ -10,8 +12,13 @@ public class Shifter : MonoBehaviour, ICipherTool
     [SerializeField] private GameObject shifterObjectPrefab;
     [SerializeField] private Transform shifterIndexHolder;
 
-    [SerializeField] private string[] shifterArray;
-    [SerializeField] private TextMeshProUGUI[] textMeshProObjects;
+    private string[] shifterArray;
+    private TextMeshProUGUI[] textMeshProObjects;
+
+    [SerializeField] private TextMeshProUGUI shiftCountText;
+    private int shiftCount = 0;
+
+    // temporary
 
     private void OnEnable()
     {
@@ -23,6 +30,8 @@ public class Shifter : MonoBehaviour, ICipherTool
         Debug.LogWarning("Test method called", this);
         Equip();
     }
+
+    //temporary
 
     public void Equip()
     {
@@ -76,21 +85,43 @@ public class Shifter : MonoBehaviour, ICipherTool
 
     public void Shift(bool left)
     {
-        int num = left ? -1 : 1;
-        string[] tempArray = shifterArray;
-
-        for (int i = 0; i < shifterArray.Length; i++) 
+        int ProcessIndex(int index, int maxIndex)
         {
-            if (i != 0 && i != shifterArray.Length - 1)
+            if (index > maxIndex)
             {
-                shifterArray[i] = tempArray[i + num];
-            }
-            else
-            {
-                shifterArray[i] = tempArray[0];
+                return 0;
             }
 
+            if (index < 0)
+            {
+                return maxIndex;
+            }
+
+            return index;
+        }
+
+        int num = left ? -1 : 1;
+
+        string[] tempArray = new string[shifterArray.Length];
+
+        Array.Copy(shifterArray, tempArray, tempArray.Length);
+
+        for (int i = 0; i < tempArray.Length; i++)
+        {
+            // shift the array to either left or right, and wrap around to the other end
+
+            int processedIndex = ProcessIndex(i + num, shifterArray.Length - 1);
+            shifterArray[i] = tempArray[processedIndex];
             textMeshProObjects[i].text = shifterArray[i];
         }
+
+        shiftCount += num;
+
+        if (shiftCount == shifterArray.Length || shiftCount == -shifterArray.Length)
+        {
+            shiftCount = 0;
+        }
+
+        shiftCountText.text = shiftCount.ToString();
     }
 }

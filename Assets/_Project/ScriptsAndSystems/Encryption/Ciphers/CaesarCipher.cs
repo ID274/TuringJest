@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CaesarCipher : BaseCipher
 {
-    // The Caesar cipher shifts the alphabet by a fixed amount. For example - if the shift is 3,
-    // then A becomes D and so on.
+    // The Caesar cipher shifts the alphabet by a fixed amount. For example - if the shift is 3, then A becomes D and so on.
 
     public int shiftAmount = 3;
     public override char Encrypt(char letter)
