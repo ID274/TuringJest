@@ -6,7 +6,17 @@ public class CaesarCipher : BaseCipher
 {
     // The Caesar cipher shifts the alphabet by a fixed amount. For example - if the shift is 3, then A becomes D and so on.
 
-    public int shiftAmount = 3;
+    private int shiftAmount = 3;
+    public int ShiftAmount
+    {
+        get { return shiftAmount; }
+        set
+        {
+            shiftAmount = value;
+            shiftAmount = Mathf.Clamp(shiftAmount, 0, alphabet.Length);
+        }
+    }
+
     public override char Encrypt(char letter)
     {
         if (!CheckIfAlphabetLetter(letter))
