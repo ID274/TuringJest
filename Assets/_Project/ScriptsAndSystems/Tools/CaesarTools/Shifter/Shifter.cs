@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 
-public class Shifter : MonoBehaviour
+public class Shifter : MonoBehaviour, ICipherTool
 {
     string key = "";
-    [SerializeField] private GameObject shifterIndexPrefab;
+    [SerializeField] private GameObject shifterObjectPrefab;
     [SerializeField] private Transform shifterIndexHolder;
 
-    private int[] originalOrder;
-    private (GameObject, int)[] shifterObjects;
+    [SerializeField] private string[] shifterArray;
+    [SerializeField] private TextMeshProUGUI[] textMeshProObjects;
 
-    private void Start()
+    private void OnEnable()
     {
         TestMethod();
     }
@@ -48,48 +49,48 @@ public class Shifter : MonoBehaviour
 
     private void PopulateShifter()
     {
-        shifterObjects = new (GameObject, int)[key.Length];
-        originalOrder = new int[key.Length];
-        Debug.Log("Key: " + key);
+        Debug.LogWarning($"Key length: {key.Length}. Key: {key}.");
+        shifterArray = new string[key.Length];
+        textMeshProObjects = new TextMeshProUGUI[shifterArray.Length];
+
         for (int i = 0; i < key.Length; i++)
         {
-            GameObject shifter = Instantiate(shifterIndexPrefab, shifterIndexHolder);
-            shifter.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
-            shifter.transform.parent = shifterIndexHolder;
-            shifterObjects[i] = (shifter, i);
-            originalOrder[i] = i;
+            string letter = key[i].ToString();
+            Debug.Log($"Letter being added: '{letter}'");
+            if (!string.IsNullOrEmpty(letter))
+            {
+                (string, TextMeshProUGUI) references = AddLetterToShifter(letter);
+                shifterArray[i] = references.Item1;
+                textMeshProObjects[i] = references.Item2;
+            }
         }
+    }
+
+    private (string, TextMeshProUGUI) AddLetterToShifter(string letter)
+    {
+        GameObject shifterObject = Instantiate(shifterObjectPrefab, shifterIndexHolder);
+        TextMeshProUGUI shifterText = shifterObject.GetComponentInChildren<TextMeshProUGUI>();
+        shifterText.text = letter;
+        return (letter, shifterText);
     }
 
     public void Shift(bool left)
     {
-        if (shifterObjects == null || shifterObjects.Length == 0) return;
+        int num = left ? -1 : 1;
+        string[] tempArray = shifterArray;
 
-        int length = shifterObjects.Length;
-        (GameObject, int)[] newOrder = new (GameObject, int)[length];
-
-        if (left)
+        for (int i = 0; i < shifterArray.Length; i++) 
         {
-            for (int i = 0; i < length - 1; i++)
+            if (i != 0 && i != shifterArray.Length - 1)
             {
-                newOrder[i] = shifterObjects[i + 1];
+                shifterArray[i] = tempArray[i + num];
             }
-            newOrder[length - 1] = shifterObjects[0];
-        }
-        else
-        {
-            for (int i = 1; i < length; i++)
+            else
             {
-                newOrder[i] = shifterObjects[i - 1];
+                shifterArray[i] = tempArray[0];
             }
-            newOrder[0] = shifterObjects[length - 1];
-        }
 
-        shifterObjects = newOrder;
-
-        for (int i = 0; i < length; i++)
-        {
-            shifterObjects[i].Item1.transform.SetSiblingIndex(i);
+            textMeshProObjects[i].text = shifterArray[i];
         }
     }
 }

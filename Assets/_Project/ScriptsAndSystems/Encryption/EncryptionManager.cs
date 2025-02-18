@@ -28,6 +28,8 @@ public class EncryptionManager : MonoBehaviour
         CaesarCipher caesarCipher = gameObject.AddComponent<CaesarCipher>();
         SetCipherStrategy(caesarCipher);
         Encrypt("HELLO, WORLD!");
+
+        // temporary
     }
 
     public void SetCipherStrategy(BaseCipher strategy)
@@ -43,8 +45,7 @@ public class EncryptionManager : MonoBehaviour
 
     public string GetKey()
     {
-        string key = cipherStrategy.GetKey();
-        return key;
+        return cipherStrategy.GetKey();
     }
 
     public string GetEncryptedText()

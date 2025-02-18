@@ -10,6 +10,11 @@ public abstract class BaseCipher : MonoBehaviour
 
     public abstract char Encrypt(char letter);
 
+    private void Awake()
+    {
+        InitialiseCipher();
+    }
+
     public string ReturnName()
     {
         return cipherName;
