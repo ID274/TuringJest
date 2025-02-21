@@ -11,6 +11,7 @@ public class Shifter : MonoBehaviour, ICipherTool
     string key = "";
     [SerializeField] private GameObject shifterObjectPrefab;
     [SerializeField] private Transform shifterIndexHolder;
+    private GameObject staticShifterHolder;
 
     private string[] shifterArray;
     private TextMeshProUGUI[] textMeshProObjects;
@@ -38,6 +39,8 @@ public class Shifter : MonoBehaviour, ICipherTool
         if (SetKey())
         {
             PopulateShifter();
+            staticShifterHolder = Instantiate(shifterIndexHolder.gameObject, transform);
+            staticShifterHolder.transform.localPosition = new Vector3(0, -shifterIndexHolder.transform.localPosition.y, 0);
         }
     }
 
