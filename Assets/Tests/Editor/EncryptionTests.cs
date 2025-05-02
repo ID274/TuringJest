@@ -30,9 +30,14 @@ public class EncryptionTests
 
     public void Encrypt()
     {
-        //encryptionManager.SetCipherStrategy(cipherStrategy);
-        cipherStrategy.SetCipher(cipher);
-        encryptionManager.Encrypt(textToEncrypt);
+        Debug.Log($"Encryption manager: {encryptionManager != null}");
+        Debug.Log($"Cipher strategy: {cipherStrategy != null}");
+        Debug.Log($"Text to encrypt: {textToEncrypt != null} - {textToEncrypt}");
+
+        encryptionManager?.AddCipherStrategyClass(cipherStrategy);
+        encryptionManager?.SetCipherStrategy(cipher);
+        cipherStrategy?.SetCipher(cipher);
+        encryptionManager?.Encrypt(textToEncrypt);
     }
 
     [Test]
@@ -46,7 +51,7 @@ public class EncryptionTests
 
         // Act
 
-        cipher.InitialiseCipher();
+        cipher?.InitialiseCipher();
         Encrypt();
         string key = cipher.GetKey();
         string expectedResult = GenerateExpectedText(key.ToCharArray());
@@ -115,7 +120,7 @@ public class EncryptionTests
         AddScripts();
 
         // Act
-        
+
         cipher.InitialiseCipher();
         Encrypt();
         string key = cipher.GetKey();
